@@ -4,6 +4,8 @@ import json
 from pprint import pprint
 import argparse
 from sys import stdin
+from os import environ
+from pathlib import Path
 
 def parse(dbname):
     with open(dbname) as f:
@@ -36,8 +38,16 @@ def SelectedMult(data):
     return mult,log
 
 def PrintTrigConf(run):
-    path='/alpha/agdaq/data/'
+    #path='/alpha/agdaq/data/'
+    path1=environ['AGMIDASDATA']+'/'
     fname='run%05d.json'%int(run)
+    if Path(path1+fname).is_file():
+        path=path1
+    elif Path('./'+fname).is_file():
+        path='./'
+    else:
+        print("couldn't find",fname)
+        return
     
     jsond=parse(path+fname)
     entry=trigger_src(jsond)
