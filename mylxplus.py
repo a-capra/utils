@@ -5,7 +5,7 @@ import sys, paramiko
 hostname='lxplus.cern.ch'
 port=22
 username='acapra'
-password='Chang*Passwd1Year'
+password='password'
 
 command='xterm'
 

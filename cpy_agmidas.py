@@ -44,7 +44,7 @@ if __name__=='__main__':
     server='lxplus.cern.ch'
     port=22
     user='acapra'
-    password='Chang*Passwd1Year'
+    password='password'
     
     ssh = createSSHClient(server, port, user, password)
     #scp = SCPClient(ssh.get_transport(), progress4=progress4)

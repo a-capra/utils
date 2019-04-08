@@ -7,8 +7,8 @@ hostname = 'lxplus.cern.ch'
 port = 22
 #username = 'username'
 username = 'acapra' 
-#password = 'password'
-password = 'Chang*Passwd1Year'
+password = 'password'
+
 command = 'ls'
 #command = 'uptime'
 
