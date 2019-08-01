@@ -17,3 +17,5 @@ with open(dbname) as f:
 #pprint(data)
 pprint(data['Programs'])
 #pprint(data['Equipment'])
+print('sca_gain',data['Equipment']['CTRL']['Settings']['PWB']['sca_gain'])
+print('threshold_pads',data['Equipment']['CTRL']['Settings']['PWB']['threshold_pads'])
