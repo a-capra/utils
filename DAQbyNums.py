@@ -5,7 +5,8 @@ ureg = pint.UnitRegistry()
 pwb_evt_size=78*511*2*4*64*ureg.byte
 print( 'PWB Event Size: {:1.3f}'.format(pwb_evt_size.to(ureg.megabyte)) )
 
-dead_time = 2.5*ureg.ms+511*16*ureg.ns
+#dead_time = 2.5*ureg.ms+511*16*ureg.ns
+dead_time = 1.6*ureg.ms+511*16*ureg.ns
 dead_time.ito(ureg.s)
 print( 'Dead Time due to AFTER: {:1.2e}'.format(dead_time) )
 rate=(dead_time**-1).to(ureg.Hz)
