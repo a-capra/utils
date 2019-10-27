@@ -8,9 +8,9 @@ if __name__=='__main__':
 
         pdfWriter = PyPDF2.PdfFileWriter()
         argc=len(sys.argv)
-        #print('argc =',argc)
+        
         if argc<4:
-                print('Usage:\tmergePDF.py output.pdf input1.pdf input2.pdf ...')
+                print('Usage:\nmergePDF.py output.pdf input1.pdf input2.pdf ...')
                 sys.exit(1)
         for fpdf in sys.argv[2:argc]:
                 if not op.isfile(fpdf):	
