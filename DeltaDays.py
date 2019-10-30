@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from datetime import date
 import argparse
@@ -17,4 +17,4 @@ args = parser.parse_args()
 d1 = date(args.year1, args.month1, args.day1)
 d2 = date(args.year2, args.month2, args.day2)
 delta = d2 - d1
-print( delta.days, "days")
+print( delta.days+1, "days")
