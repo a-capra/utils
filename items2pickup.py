@@ -3,6 +3,8 @@ from html.parser import HTMLParser
 import re
 import smtplib
 from email.mime.text import MIMEText
+from time import sleep
+import datetime
 
 class PickUpParser(HTMLParser):
 
@@ -73,24 +75,31 @@ class PickUpParser(HTMLParser):
 
     def notify(self,bin_number):
         msg = MIMEText("Hey Andrea,\n you've got an item waiting for in bin {}\nCheers,\nPyalpha".format(bin_number))
+        address='andrea.capra85@gmail.com'
+        #address='acapra@triumf.ca'
         msg['Subject'] = 'Item for you to pick-up at Stores'
         msg['From'] = 'alpha01'
-        msg['To'] = 'acapra@triumf.ca'
+        msg['To'] = address
         # Send the message via our own SMTP server, but don't include the
         # envelope header.
         s = smtplib.SMTP('localhost')
-        s.sendmail('alpha01', ['acapra@triumf.ca'], msg.as_string())
+        s.sendmail('alpha01', [address], msg.as_string())
         s.quit()
   
 
-parser = PickUpParser()
-response = requests.get('https://www.triumf.ca/supply-chain-management/receiving-pick-ups')
-if response.status_code == 200:
-    #print(response.content.decode())
-    parser.feed(response.content.decode())
-    #parser.print_name_bin()
-    bin_number = parser.Item('Capra')
-    if bin_number > 0:
-        parser.notify(bin_number)
-else:
-    print('Status:',response.status_code)
+while True:
+    parser = PickUpParser()
+    response = requests.get('https://www.triumf.ca/supply-chain-management/receiving-pick-ups')
+    if response.status_code == 200:
+        #print(response.content.decode())
+        parser.feed(response.content.decode())
+        #parser.print_name_bin()
+        bin_number = parser.Item('Capra')
+        if bin_number > 0:
+            parser.notify(bin_number)
+        else:
+            print('I checked at',datetime.datetime.now(),'and no items were delivered')
+    else:
+        print('Status:',response.status_code)
+
+    sleep(3600)
