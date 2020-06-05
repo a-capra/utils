@@ -14,19 +14,25 @@ else:
 with open(dbname) as f:
     data = json.load(f)
 
-#pprint(data)
-#print(data['Equipment']['TDC']['Common']['Frontend file name'])
-#print(data['Equipment']['BVlvtop']['Settings'])
-#print(data['Equipment']['BVlvbot']['Settings'])
-
 while True:
     for i in data:
         if i[0] == '/':
             continue
         print(i)
     print('------------------------------')
-    s = input('Choose one: ')
-#    print(type(data))
+    
+    check_key=True
+    while check_key:
+        try:
+            s = input('Choose one: ')
+        except EOFError:
+            exit(0)
+        try:
+            data[s]
+            check_key=False
+        except KeyError:
+            print(s,'is not recognized')
+
     if isinstance(data[s], dict):
         data=data[s]
     else:
