@@ -41,7 +41,8 @@ if __name__=='__main__':
     parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin, help='List of runs')
     args = parser.parse_args()
 
-    server='lxplus.cern.ch'
+    #server='lxplus.cern.ch'
+    server='alpha00.triumf.ca'
     port=22
     user='acapra'
     password='password'
@@ -52,7 +53,8 @@ if __name__=='__main__':
 
     src=getsubruns(args.infile)
             
-    dst='/afs/cern.ch/user/a/acapra/workspace/agdata'
+    #dst='/afs/cern.ch/user/a/acapra/workspace/agdata'
+    dst='/daq/alpha_data0/acapra/alphag/midasdata'
 
     print('Ready for transfer')
 
