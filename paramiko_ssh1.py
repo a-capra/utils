@@ -9,7 +9,7 @@ port = 22
 username = 'acapra' 
 password = 'password'
 
-command = 'ls'
+command = 'hostname'
 #command = 'uptime'
 
 client = paramiko.Transport((hostname, port))

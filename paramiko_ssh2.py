@@ -3,7 +3,7 @@
 import sys, paramiko
 
 if len(sys.argv) < 4:
-    print "args missing"
+    print("args missing")
     sys.exit(1)
 
 hostname = sys.argv[1]
@@ -21,7 +21,7 @@ try:
     client.connect(hostname, port=port, username=username, password=password)
 
     stdin, stdout, stderr = client.exec_command(command)
-    print stdout.read(),
+    print(stdout.read(),)
 
 finally:
     client.close()
