@@ -7,7 +7,22 @@ from pathlib import PurePath
 
 import argparse
 
-url='https://pml.nist.gov/cuu/Constants/Table/allascii.txt'
+from sys import exit
+from geturl import url_validator
+
+parser = argparse.ArgumentParser()
+parser.add_argument("url", type=str, help="URL of the file to download")
+args = parser.parse_args()
+print(f'Fetching {args.url}')
+
+if url_validator(args.url):
+    url=args.url
+    print('URL is valid')
+else:
+    print('URL is NOT valid')
+    exit(1)
+#url='https://pml.nist.gov/cuu/Constants/Table/allascii.txt'
+
 fname=url.split('/')[-1]
 p=PurePath(__file__).parent.joinpath(fname)
 print(f'Saving file to {p}')
