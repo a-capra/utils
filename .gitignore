@@ -108,3 +108,6 @@ venv.bak/
 
 # Microsoft VScode
 .vscode
+
+# misc
+allascii.txt
