@@ -1,17 +1,11 @@
-#!/usr/bin/env python
+import paramiko
 
-import sys, paramiko
-
-if len(sys.argv) < 4:
-    print("args missing")
-    sys.exit(1)
-
-hostname = sys.argv[1]
-password = sys.argv[2]
-command = sys.argv[3]
-
-username = "admin"
+username = "acapra"
+hostname = "lxplus.cern.ch"
+password = "xxxxxxxxxxxx"
 port = 22
+
+command = "./vnc.cmd"
 
 try:
     client = paramiko.SSHClient()
@@ -21,7 +15,8 @@ try:
     client.connect(hostname, port=port, username=username, password=password)
 
     stdin, stdout, stderr = client.exec_command(command)
-    print(stdout.read(),)
+
+    print(stdout.read().decode('utf-8'))
 
 finally:
     client.close()

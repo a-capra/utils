@@ -69,27 +69,38 @@ def worker(runfile):
     except FileNotFoundError:
         print(f'{runfile} not found')
 
-
 if __name__=='__main__':
 
     parser = argparse.ArgumentParser(description='copy ALPHA-g MIDASfiles to my workspace')
     parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin, help='List of runs')
     args = parser.parse_args()
 
-#    src=getsubruns(args.infile)
-    src=getnewsubruns(args.infile)
-    for f in src:
-        print(f)
+    #server='lxplus.cern.ch'
+    server='alpha00.triumf.ca'
+    port=22
+    user='acapra'
+    password='password'
+    
+    ssh = createSSHClient(server, port, user, password)
+    #scp = SCPClient(ssh.get_transport(), progress4=progress4)
+    scp = SCPClient(ssh.get_transport(), socket_timeout=None, progress=progress)
+
+    src=getsubruns(args.infile)
+    #src=getnewsubruns(args.infile)
+    #for f in src:
+    #    print(f)
             
     #dst='/afs/cern.ch/user/a/acapra/workspace/agdata'
+    dst='/daq/alpha_data0/acapra/alphag/midasdata'
 
     print('Ready for transfer')
 
     # recursive for directories
     # scp.put(src, recursive=True, remote_path=dst)
     #
-    #scp.put(src, remote_path=dst)
+    scp.put(src, remote_path=dst)
 
     #pool = Pool(processes=5)
     #pool.map(worker, src)
+
 

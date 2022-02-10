@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# packet to install:
+# pip install pyserial
 import serial
 
 s=serial.Serial('/dev/ttyUSB0',timeout=1)

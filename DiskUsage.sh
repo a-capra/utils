@@ -1,7 +1,11 @@
 #!/bin/bash
 
 FNAME="diskusage_`date +%F_%H%M%S`.log"
-du -h | sort -h -r > ${FNAME}
+# disk usage in human readable form '-h'
+#     "      only one filesystem '-x'
+# reverse sort '-r' 
+# using human readable numbers '-h'
+du -h -x | sort -h -r > ${FNAME}
 
 head -35 ${FNAME}
 
