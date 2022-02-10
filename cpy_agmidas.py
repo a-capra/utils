@@ -6,6 +6,7 @@ from scp import SCPClient
 import argparse
 import sys
 from pathlib import Path
+from multiprocessing import Pool
 
 def createSSHClient(server, port, user, password):
     client = paramiko.SSHClient()
@@ -34,6 +35,40 @@ def getsubruns(runlist):
             subfile=Path(subrun)
     return filelist
 
+def getnewsubruns(runlist):
+    filelist=[]
+    localpath='/daq/alpha_data0/acapra/alphag/midasdata/'
+    remotepath='/eos/experiment/ALPHAg/midasdata_old/'
+    for line in runlist:
+        l=line.split()
+        subrun=str(l[0].strip())
+        subsize=int(l[1].strip())
+        subfile=Path(subrun)
+        localfile=Path(localpath+subfile.parts[-1])
+        if localfile.is_file():
+            #print(f'yes {subrun}')
+            localsize=int(localfile.stat().st_size)
+            if localsize==subsize:
+                continue
+        #print(f'no {subrun}')
+        filelist.append(remotepath+subrun)
+    return filelist
+
+def worker(runfile):
+    server='lxplus.cern.ch'
+    port=22
+    user='acapra'
+    password='password'
+    
+    ssh = createSSHClient(server, port, user, password)
+    scp = SCPClient(ssh.get_transport(), progress4=progress4)
+    #scp = SCPClient(ssh.get_transport(), socket_timeout=None, progress=progress)
+    dst='/daq/alpha_data0/acapra/alphag/midasdata'
+    try:
+        scp.put(runfile.strip(),remote_path=dst)
+    except FileNotFoundError:
+        print(f'{runfile} not found')
+
 
 if __name__=='__main__':
 
@@ -41,23 +76,20 @@ if __name__=='__main__':
     parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin, help='List of runs')
     args = parser.parse_args()
 
-    server='lxplus.cern.ch'
-    port=22
-    user='acapra'
-    password='password'
-    
-    ssh = createSSHClient(server, port, user, password)
-    #scp = SCPClient(ssh.get_transport(), progress4=progress4)
-    scp = SCPClient(ssh.get_transport(), socket_timeout=None, progress=progress)
-
-    src=getsubruns(args.infile)
+#    src=getsubruns(args.infile)
+    src=getnewsubruns(args.infile)
+    for f in src:
+        print(f)
             
-    dst='/afs/cern.ch/user/a/acapra/workspace/agdata'
+    #dst='/afs/cern.ch/user/a/acapra/workspace/agdata'
 
     print('Ready for transfer')
 
     # recursive for directories
     # scp.put(src, recursive=True, remote_path=dst)
     #
-    scp.put(src, remote_path=dst)
+    #scp.put(src, remote_path=dst)
+
+    #pool = Pool(processes=5)
+    #pool.map(worker, src)
 
