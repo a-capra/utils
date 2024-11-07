@@ -4,12 +4,11 @@
 # pip install pyserial
 import serial
 
-s=serial.Serial('/dev/ttyUSB0',timeout=1)
-print s
-s.write('x\r\n')
-print 'firmware:', s.read(17).strip('\r\n')
-s.write('d\r\n')
-print s.read(17).strip('\r\n')
-s.write('pow\r\n')
-print s.read(17).strip('\r\n')
-s.close()
+with serial.Serial('/dev/ttyUSB0',timeout=None) as s:
+    print(s)
+    print("Try write")
+    s.write(str.encode('*IDN?'))
+    print("Try read")
+    print ('firmware:', s.read(10).decode())
+
+
