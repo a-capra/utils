@@ -9,12 +9,12 @@ if __name__=='__main__':
     args = parser.parse_args()
     if min(args.pages) < 1: raise ValueError
 
-    pdfWriter = PyPDF2.PdfFileWriter()
+    pdfWriter = PyPDF2.PdfWriter()
     
-    pdfReader = PyPDF2.PdfFileReader(args.fin)
+    pdfReader = PyPDF2.PdfReader(args.fin)
     for page in args.pages:
-        pageObj = pdfReader.getPage(page-1)
-        pdfWriter.addPage(pageObj)
+        pageObj = pdfReader.pages[page-1]
+        pdfWriter.add_page(pageObj)
     
     pdfWriter.write(args.fout)
     args.fout.close()

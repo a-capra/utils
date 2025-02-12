@@ -6,7 +6,7 @@ import os.path as op
 
 if __name__=='__main__':
 
-        pdfWriter = PyPDF2.PdfFileWriter()
+        pdfWriter = PyPDF2.PdfWriter()
         argc=len(sys.argv)
         
         if argc<4:
@@ -18,11 +18,11 @@ if __name__=='__main__':
                         continue
                 f = open(fpdf, 'rb')
                 print('-->',fpdf)
-                pdfReader = PyPDF2.PdfFileReader(f)
-                print('pages:',pdfReader.numPages)
-                for pageNum in range(pdfReader.numPages):
-                        pageObj = pdfReader.getPage(pageNum)
-                        pdfWriter.addPage(pageObj)
+                pdfReader = PyPDF2.PdfReader(f)
+                print('pages:',len(pdfReader.pages))
+                for pageNum in range(len(pdfReader.pages)):
+                        pageObj = pdfReader.pages[pageNum]
+                        pdfWriter.add_page(pageObj)
 
         pdfOutputFile = open(sys.argv[1], 'wb')
         pdfWriter.write(pdfOutputFile)
